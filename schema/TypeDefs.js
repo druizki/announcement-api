@@ -1,59 +1,67 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-    scalar Date
+  scalar Date
 
-    type User {
-        name: String!
-        email: String!
-    }
+  type User {
+    name: String!
+    email: String!
+  }
 
-    type Notice {
-        id: Int!
-        title: String!
-        desc: String
-        content: String!
-        label: String
-        banner: String
-        isDraft: Boolean
-        totalViews: Int!
-        createdAt: Date!
-    }
+  type Notice {
+    id: Int!
+    title: String!
+    desc: String
+    content: String!
+    label: String
+    banner: String
+    isDraft: Boolean
+    totalViews: Int!
+    createdAt: Date!
+  }
 
-    input UserInput {
-        name: String!
-        email: String!
-        password: String!
-    }
+  input UserInput {
+    name: String!
+    email: String!
+    password: String!
+  }
 
-    type AuthResp {
-        user: User!
-        token: String!
-    }
+  type AuthResp {
+    user: User!
+    token: String!
+  }
 
-    input NoticeInput {
-        title: String!
-        desc: String
-        content: String!
-        label: String
-        banner: String
-        isDraft: Boolean
-        totalViews: Int
-    }
+  input NoticeInput {
+    title: String!
+    desc: String
+    content: String!
+    label: String
+    banner: String
+    isDraft: Boolean
+    totalViews: Int
+  }
 
-    # Queries
-    type Query {
-        getAllUsers: [User!]!
-        getAllNotices: [Notice!]!
-        getNotice(id: Int!): Notice!
-        authenticateUser(email:String!, password:String!): AuthResp!
-    }
+  input NoticeUpdateInput {
+    id: Int!
+    title: String!
+    content: String!
+  }
 
-    # Mutation
-    type Mutation {
-        createNotice(notice: NoticeInput): Notice!
-        registerUser(newUser: UserInput): AuthResp!
-    }
+  # Queries
+  type Query {
+    getAllUsers: [User!]!
+    getAllNotices: [Notice!]!
+    getNotice(id: Int!): Notice!
+    authenticateUser(email: String!, password: String!): AuthResp!
+  }
+
+  # Mutation
+  type Mutation {
+    createNotice(notice: NoticeInput): Notice!
+    updateNotice(notice: NoticeUpdateInput): Notice!
+    deleteNotice(id: Int!): Int!
+    registerUser(newUser: UserInput): AuthResp!
+  }
 `;
 
 module.exports = { typeDefs };

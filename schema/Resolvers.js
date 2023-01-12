@@ -60,6 +60,29 @@ const resolvers = {
       return notice;
     },
 
+    deleteNotice: async (parent, args, context, info) => {
+      try {
+        console.log(args);
+        const notice = await Notice.findByPk(args["id"]);
+        await notice.destroy();
+
+        return 1;
+      } catch (error) {
+        return error;
+      }
+    },
+
+    updateNotice: async (parent, args, context, info) => {
+      const params = args["notice"];
+      console.log(params);
+      const update = await Notice.update(
+        { title: params.title, content: params.content },
+        { where: { id: params.id } }
+      );
+      const notice = await Notice.findByPk(params.id);
+      return notice;
+    },
+
     registerUser: async (parent, args, context, info) => {
       try {
         const { name, email, password } = args["newUser"];
